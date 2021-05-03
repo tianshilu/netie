@@ -6,4 +6,8 @@ PyClone; R;
 ## Guided Tutorial
 Command: 
 ```
-Niet
+netie(input_data,sigma_squre = 100000 ,
+                                   alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,multi_sample = T)
+```
+
+                                   
