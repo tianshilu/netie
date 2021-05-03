@@ -17,4 +17,4 @@ netie(input_data,sigma_square = 100000 ,
 * multi_sample: use True if one patient has more than one sample.
 
 ## Output 
-The output is a list with the information of the anti-tumor selection pressure for each clone (ac) and for the whole tumor (a).
+The output is a list with the information of the anti-tumor selection pressure for each clone ac and for the whole tumor a.
