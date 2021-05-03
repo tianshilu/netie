@@ -1,4 +1,4 @@
-netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample=F){
+netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample=F){
   if(all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)]==0)){
     return(NA)
   }
@@ -50,9 +50,9 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
     }}else{
       sigma_a_sqr=1 
     }
-  #check sigma_squre >> sigma_a_sqr
-  if(sigma_squre<100*sigma_a_sqr){
-    print("sigma squre should be much more larger than sigma a squre!")
+  #check sigma_square >> sigma_a_sqr
+  if(sigma_square<100*sigma_a_sqr){
+    print("sigma square should be much more larger than sigma a square!")
     stop()
   }
   #alpha should be larger than beta
@@ -149,7 +149,8 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
         
           tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_b,log = T))
           tmp=sum((zck==1)*dpois(nck,lambda,log = T))
-          llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_squre)-tmp+bc[c]^2/(2*sigma_squre))
+          llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_
+                                        )-tmp+bc[c]^2/(2*sigma_square))
         
           acceptance_function_b=min(1,llhr_b) 
         
@@ -179,7 +180,7 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
         
         if(length(table(input_one_patient$cluster_id))==1){
         #the patient only has one clone
-          llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_squre)-tmp+ac[c]^2/(2*sigma_squre))
+          llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_square)-tmp+ac[c]^2/(2*sigma_square))
         }else{
           llhr_a=exp(tmp_prim-(ac_prim-a)^2/(2*sigma_a_sqr)-tmp+(ac[c]-a)^2/(2*sigma_a_sqr))
         }
@@ -196,7 +197,7 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
       pi=rbeta(1,alpha+sum((zck_df$zck==0)*(input_one_patient$neo_load==0)),beta+sum(zck_df$zck==1))
       
       #update a
-      A=1/sigma_squre+length(unique(input_one_patient$phi))/sigma_a_sqr
+      A=1/sigma_square+length(unique(input_one_patient$phi))/sigma_a_sqr
       B=sum(ac[!duplicated(phi_cluster$phi)])/sigma_a_sqr
       
       a=rnorm(1,B/A,sqrt(1/A))
@@ -237,7 +238,7 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
       
       if(length(table(input_one_patient$cluster_id))==1){
         #the patient only has one clone
-        llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_squre)-tmp+ac[c]^2/(2*sigma_squre))
+        llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_square)-tmp+ac[c]^2/(2*sigma_square))
       }else{
         llhr_a=exp(tmp_prim-(ac_prim-a)^2/(2*sigma_a_sqr)-tmp+(ac[c]-a)^2/(2*sigma_a_sqr))
       }
@@ -258,7 +259,7 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
       
       tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_b,log = T))
       tmp=sum((zck==1)*dpois(nck,lambda,log = T))
-      llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_squre)-tmp+bc[c]^2/(2*sigma_squre))
+      llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_square)-tmp+bc[c]^2/(2*sigma_square))
       
       acceptance_function_b=min(1,llhr_b) 
       
@@ -272,7 +273,7 @@ netie=function(input_one_patient,sigma_squre,alpha,beta,sigma_p_sqr,sigma_a_sqr,
     pi=rbeta(1,alpha+sum((zck_df$zck==0)*(input_one_patient$neo_load==0)),beta+sum(zck_df$zck==1))
     
     #update a
-    A=1/sigma_squre+length(unique(input_one_patient$cluster_id))/sigma_a_sqr
+    A=1/sigma_square+length(unique(input_one_patient$cluster_id))/sigma_a_sqr
     B=sum(ac)/sigma_a_sqr
     
     a=rnorm(1,B/A,sqrt(1/A))
