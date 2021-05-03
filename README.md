@@ -6,8 +6,8 @@ PyClone; R;
 ## Guided Tutorial
 Command: 
 ```
-netie(input_data,sigma_squre = 100000 ,
+netie(input_data,sigma_square = 100000 ,
                                    alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,multi_sample = T)
 ```
-
-                                   
+* input_data: a list with each data frame as the data for each patient. Each data frame consists 7 columns and each row is for one mutation. The 7 columns are mutation ID, sample ID, cluster ID, cellular prevalence, variant allele prevalence, variant allele frequency, and neoantigen load with column names as "mutation_id","sample_id","cluster_id","cellular_prevalence","variant_allele_frequency", and "neoantigen_load". 
+* sigma_square                                  
