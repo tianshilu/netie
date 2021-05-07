@@ -1,9 +1,9 @@
 Package: netie
 Type: Package
-Title: What the package does (short line)
+Title: Neoantigen-T cell interaction estimation
 Version: 1.0
-Date: 2021-04-30
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Date: 2021-05-07
+Author: Tianshi Lu
+Maintainer: Tianshi Lu <tianshi.lu@utsouthwestern.edu>
+Description:The Bayesian Hierarchical Model named Neoantgien-T cell interaction estimation (Netie) is to investigate the neoantigens observed in the patient tumors to esti- mate the history of the immune pressure on the evolution of the tumor clones. 
+License: Apache license version 2.0
