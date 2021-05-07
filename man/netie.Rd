@@ -3,38 +3,48 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
+Neoantigen-T cell interaction estimation
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
+The Bayesian Hierarchical Model named Neoantgien-T cell interaction estimation (Netie) is to investigate the neoantigens observed in the patient tumors to esti- mate the history of the immune pressure on the evolution of the tumor clones.
 }
 \usage{
-netie(input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr, sigma_a_sqr, max_iter, multi_sample = F)
+netie(input_one_patient, sigma_square, alpha, beta, sigma_p_sqr, sigma_a_sqr, max_iter, multi_sample = F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{input_one_patient}{
 %%     ~~Describe \code{input_one_patient} here~~
+a list with each data frame as the data for each patient. Each data frame consists 7 columns and each row is for one mutation. Please refer to https://github.com/tianshilu/Netie for more details.
 }
-  \item{sigma_squre}{
-%%     ~~Describe \code{sigma_squre} here~~
+  \item{sigma_square}{
+%%     ~~Describe \code{sigma_square} here~~
+hyperparameters for prior distributions. Please refer to https://github.com/tianshilu/Netie for more details.
 }
   \item{alpha}{
 %%     ~~Describe \code{alpha} here~~
+hyperparameters for prior distributions. Please refer to https://github.com/tianshilu/Netie for more details.
 }
   \item{beta}{
 %%     ~~Describe \code{beta} here~~
+hyperparameters for prior distributions. Please refer to https://github.com/tianshilu/Netie for more details.
 }
   \item{sigma_p_sqr}{
 %%     ~~Describe \code{sigma_p_sqr} here~~
+hyperparameters for prior distributions. Please refer to https://github.com/tianshilu/Netie for more details.
 }
   \item{sigma_a_sqr}{
 %%     ~~Describe \code{sigma_a_sqr} here~~
+hyperparameters for prior distributions. Please refer to https://github.com/tianshilu/Netie for more details.
 }
   \item{max_iter}{
 %%     ~~Describe \code{max_iter} here~~
+the iterations of Markov chain Monte Carlo.
 }
   \item{multi_sample}{
 %%     ~~Describe \code{multi_sample} here~~
+use True if one patient has more than one sample.
 }
 }
 \details{
@@ -46,12 +56,15 @@ netie(input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr, sigma_a_sqr, max
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
+The output is a list with the information of the anti-tumor selection pressure for each clone ac and for the whole tumor a.
 }
 \references{
 %% ~put references to the literature/web site here ~
+https://github.com/tianshilu/Netie
 }
 \author{
 %%  ~~who you are~~
+Tianshi Lu
 }
 \note{
 %%  ~~further notes~~
@@ -66,9 +79,10 @@ netie(input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr, sigma_a_sqr, max
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
-
+netie(input_data,sigma_square = 100000 ,
+                                   alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,multi_sample = T)
 ## The function is currently defined as
-function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr, 
+function (input_one_patient, sigma_square, alpha, beta, sigma_p_sqr, 
     sigma_a_sqr, max_iter, multi_sample = F) 
 {
     if (all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)] == 
@@ -129,8 +143,8 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
     else {
         sigma_a_sqr = 1
     }
-    if (sigma_squre < 100 * sigma_a_sqr) {
-        print("sigma squre should be much more larger than sigma a squre!")
+    if (sigma_square < 100 * sigma_a_sqr) {
+        print("sigma square should be much more larger than sigma a square!")
         stop()
     }
     if (alpha <= beta) {
@@ -222,8 +236,8 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
                   tmp_prim = sum((zck == 1) * dpois(nck, lambda_prim_b, 
                     log = T))
                   tmp = sum((zck == 1) * dpois(nck, lambda, log = T))
-                  llhr_b = exp(tmp_prim - bc_prim^2/(2 * sigma_squre) - 
-                    tmp + bc[c]^2/(2 * sigma_squre))
+                  llhr_b = exp(tmp_prim - bc_prim^2/(2 * sigma_square) - 
+                    tmp + bc[c]^2/(2 * sigma_square))
                   acceptance_function_b = min(1, llhr_b)
                   u = runif(1, 0, 1)
                   if (u <= acceptance_function_b) {
@@ -247,8 +261,8 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
                   log = T))
                 if (length(table(input_one_patient$cluster_id)) == 
                   1) {
-                  llhr_a = exp(tmp_prim - ac_prim^2/(2 * sigma_squre) - 
-                    tmp + ac[c]^2/(2 * sigma_squre))
+                  llhr_a = exp(tmp_prim - ac_prim^2/(2 * sigma_square) - 
+                    tmp + ac[c]^2/(2 * sigma_square))
                 }
                 else {
                   llhr_a = exp(tmp_prim - (ac_prim - a)^2/(2 * 
@@ -263,7 +277,7 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
             }
             pi = rbeta(1, alpha + sum((zck_df$zck == 0) * (input_one_patient$neo_load == 
                 0)), beta + sum(zck_df$zck == 1))
-            A = 1/sigma_squre + length(unique(input_one_patient$phi))/sigma_a_sqr
+            A = 1/sigma_square + length(unique(input_one_patient$phi))/sigma_a_sqr
             B = sum(ac[!duplicated(phi_cluster$phi)])/sigma_a_sqr
             a = rnorm(1, B/A, sqrt(1/A))
             ac_list[[iter]] = ac
@@ -296,8 +310,8 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
                 tmp = sum((zck == 1) * dpois(nck, lambda, log = T))
                 if (length(table(input_one_patient$cluster_id)) == 
                   1) {
-                  llhr_a = exp(tmp_prim - ac_prim^2/(2 * sigma_squre) - 
-                    tmp + ac[c]^2/(2 * sigma_squre))
+                  llhr_a = exp(tmp_prim - ac_prim^2/(2 * sigma_square) - 
+                    tmp + ac[c]^2/(2 * sigma_square))
                 }
                 else {
                   llhr_a = exp(tmp_prim - (ac_prim - a)^2/(2 * 
@@ -315,8 +329,8 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
                 tmp_prim = sum((zck == 1) * dpois(nck, lambda_prim_b, 
                   log = T))
                 tmp = sum((zck == 1) * dpois(nck, lambda, log = T))
-                llhr_b = exp(tmp_prim - bc_prim^2/(2 * sigma_squre) - 
-                  tmp + bc[c]^2/(2 * sigma_squre))
+                llhr_b = exp(tmp_prim - bc_prim^2/(2 * sigma_square) - 
+                  tmp + bc[c]^2/(2 * sigma_square))
                 acceptance_function_b = min(1, llhr_b)
                 u = runif(1, 0, 1)
                 if (u <= acceptance_function_b) {
@@ -326,7 +340,7 @@ function (input_one_patient, sigma_squre, alpha, beta, sigma_p_sqr,
             }
             pi = rbeta(1, alpha + sum((zck_df$zck == 0) * (input_one_patient$neo_load == 
                 0)), beta + sum(zck_df$zck == 1))
-            A = 1/sigma_squre + length(unique(input_one_patient$cluster_id))/sigma_a_sqr
+            A = 1/sigma_square + length(unique(input_one_patient$cluster_id))/sigma_a_sqr
             B = sum(ac)/sigma_a_sqr
             a = rnorm(1, B/A, sqrt(1/A))
             ac_list[[iter]] = ac
