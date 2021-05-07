@@ -1,4 +1,10 @@
+rm(list = ls())
+options(repos = c(CRAN = "http://cran.rstudio.com"))
+if (!'Rlab' %in% rownames(installed.packages())) {
+  install.packages('Rlab')
+}
 library('Rlab')
+
 netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample=F){
   if(all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)]==0)){
     return(NA)
