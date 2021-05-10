@@ -13,7 +13,7 @@ Please refer to our lab's website for more information https://qbrc.swmed.edu/la
   Or
   ```
   # install.packages("devtools") 
-  devtools::install_github("tianshilu/Netie", subdir = "Netie") # don't forget to specify subdir!
+  devtools::install_github("tianshilu/netie", subdir = "netie") # don't forget to specify subdir!
   ```
 ## Dependencies
 PyClone; R(version>3.4)
