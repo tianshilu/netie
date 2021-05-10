@@ -6,10 +6,13 @@ The Bayesian Hierarchical Model named Neoantgien-T cell interaction estimation (
 Please refer to our lab's website for more information https://qbrc.swmed.edu/labs/wanglab/software.php.
 ## Installation of the package:
   To install our package, you may simply execute the following codes. 
-  ```install.packages('netie')```
+  ```install.packages('netie')
+  ```
   Or
-  ```# install.packages("devtools") ```
-  ```devtools::install_github("tianshilu/Netie", subdir = "Netie") # don't forget to specify subdir!```
+  ```# install.packages("devtools") 
+  ```
+  ```devtools::install_github("tianshilu/Netie", subdir = "Netie") # don't forget to specify subdir!
+  ```
 ## Dependencies
 PyClone; R(version>3.4)
 ## Guided Tutorial
