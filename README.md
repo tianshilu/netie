@@ -26,7 +26,7 @@ netie(input_data,sigma_square = 100000 ,
 * input_data: a list with each data frame as the data for each patient. Each data frame consists 7 columns and each row is for one mutation. The 7 columns are mutation ID, sample ID, cluster ID, cellular prevalence, variant allele prevalence, variant allele frequency, and neoantigen load with column names as "mutation_id","sample_id","cluster_id","cellular_prevalence","variant_allele_frequency", and "neoantigen_load". Please use PyClone or other softwares (https://github.com/tianshilu/Phylogenetic-Tree) to get information of cluster id and cellular prevalence. Please use QBRC mutation calling pipeline (https://github.com/tianshilu/QBRC-Somatic-Pipeline) to call mutations for whole exome sequenicng; QBRC neoantigen calling pipeline (https://github.com/tianshilu/QBRC-Neoantigen-Pipeline) to call neoantigens for whole exome sequencing and RNA sequencing.
 
 example of input_data:
-![preview](https://github.com/tianshilu/Netie/blob/main/figure/input_data_exp.jpg) 
+![preview](https://github.com/tianshilu/Netie/blob/main/figure/input_data_exp.png) 
 * sigma_square, alpha, beta, sigma_p_sqr, sigma_a_sqr: hyperparameters for prior distributions. Please refer to the paper for more details.
 * max_iter: the iterations of Markov chain Monte Carlo. 
 * multi_sample: use True if one patient has more than one sample.
