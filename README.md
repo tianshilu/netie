@@ -4,6 +4,12 @@ An R package to infer the anti-tumor selection pressure for tumors.
 The Bayesian Hierarchical Model named Neoantgien-T cell interaction estimation (Netie) is to investigate the neoantigens observed in the patient tumors to esti- mate the history of the immune pressure on the evolution of the tumor clones. The estimation results will answer whether the host immune system has been conferring strong or weaker selection pressure on the tumor clones over the time of tumor development. This may give us a peak into the future of how the mutations and clones will evolve for that patient. The model is based on pyclone estimation results. Essentially, each clone is modelled separately, but sharing some random variables.
 ![preview](https://github.com/tianshilu/Netie/blob/main/flowchart.jpg) 
 Please refer to our lab's website for more information https://qbrc.swmed.edu/labs/wanglab/software.php.
+## Installation of the package:
+  To install our package, you may simply execute the following codes. 
+  ```install.packages('netie')```
+  Or
+  ```# install.packages("devtools") ```
+  ```devtools::install_github("tianshilu/Netie", subdir = "Netie") # don't forget to specify subdir!```
 ## Dependencies
 PyClone; R(version>3.4)
 ## Guided Tutorial
