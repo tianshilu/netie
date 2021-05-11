@@ -33,4 +33,4 @@ example of input_data:
 
 ## Output 
 The output is a list with the information of the anti-tumor selection pressure for each clone ac and for the whole tumor a.
-![preview](https://github.com/tianshilu/Netie/blob/main/figure/output_exp.png) 
+![preview](https://github.com/tianshilu/Netie/blob/main/figure/output_exp.jpg) 
