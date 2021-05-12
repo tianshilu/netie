@@ -7,10 +7,11 @@ Neoantigen-T cell interaction estimation
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-The Bayesian Hierarchical Model named Neoantgien-T cell interaction estimation (Netie) is to investigate the neoantigens observed in the patient tumors to esti- mate the history of the immune pressure on the evolution of the tumor clones.
+The Bayesian Hierarchical Model named Neoantigen-T cell interaction estimation (Netie) is to estimate the history of the immune pressure on the evolution of the tumor clones.
 }
 \usage{
-netie(input_one_patient, sigma_square, alpha, beta, sigma_p_sqr, sigma_a_sqr, max_iter, multi_sample = F)
+netie(input_one_patient,sigma_square,alpha,beta,
+sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,9 +48,6 @@ the iterations of Markov chain Monte Carlo.
 use True if one patient has more than one sample.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -66,24 +64,17 @@ https://github.com/tianshilu/Netie
 %%  ~~who you are~~
 Tianshi Lu
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
-netie(input_data,sigma_square = 100000 ,
-                                   alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,multi_sample = T)
+data(input_data)
+netie(input_data,sigma_square=100000,alpha=10,beta=2,
+sigma_p_sqr=0.1,max_iter=1000,multi_sample=TRUE)
 ## The function is currently defined as
 function (input_one_patient, sigma_square, alpha, beta, sigma_p_sqr, 
-    sigma_a_sqr, max_iter, multi_sample = F) 
+    sigma_a_sqr, max_iter, multi_sample = FALSE) 
 {
     if (all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)] == 
         0)) {
@@ -115,7 +106,7 @@ function (input_one_patient, sigma_square, alpha, beta, sigma_p_sqr,
                   0.5) {
                   return(names(clones)[x])
                 }
-            }), use.names = F)
+            }), use.names = FALSE)
             if (!is.null(phi_tmp)) {
                 phi = c(phi, phi_tmp)
             }
@@ -361,7 +352,7 @@ function (input_one_patient, sigma_square, alpha, beta, sigma_p_sqr,
     bc_rate = Reduce("+", acp_rate_bc_list[keep])/length(keep)
     a_final = mean(a_all[keep])
     pi_final = mean(pi_all[keep])
-    if (multi_sample == T) {
+    if (multi_sample == TRUE) {
         final_parameters = list(zck = data.frame(zck_df_final), 
             ac = ac_final, bc = bc_final, acp_rate_ac = ac_rate, 
             a = a_final, acp_rate_bc = bc_rate, pi = pi_final, 
@@ -380,5 +371,5 @@ function (input_one_patient, sigma_square, alpha, beta, sigma_p_sqr,
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ neoantigen }% use one of  RShowDoc("KEYWORDS")
+\keyword{ immune }% __ONLY ONE__ keyword per line

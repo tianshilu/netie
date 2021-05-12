@@ -22,15 +22,6 @@ one kidney cancer patient with 2 samples
     \item{\code{neo_load}}{a numeric vector}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
 \examples{
 data(input_data)
 ## maybe str(input_data) ; plot(input_data) ...
