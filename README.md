@@ -30,8 +30,9 @@ example of input_data:
 * sigma_square, alpha, beta, sigma_p_sqr, sigma_a_sqr: hyperparameters for prior distributions. Please refer to the paper for more details.
 * max_iter: the iterations of Markov chain Monte Carlo. 
 * multi_sample: use True if one patient has more than one sample.
+Two example input datasets can be found here: https://github.com/tianshilu/Netie/tree/main/example
 
 ## Output 
 The output is a list with the information of the anti-tumor selection pressure for each clone ac and for the whole tumor a.
-
+Two example output results can be found here: https://github.com/tianshilu/Netie/tree/main/example
 ![preview](https://github.com/tianshilu/Netie/blob/main/figure/output_exp.png) 
