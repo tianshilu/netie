@@ -8,10 +8,6 @@ Please refer to our lab's website for more information https://qbrc.swmed.edu/la
 ## Installation of the package:
   To install our package, you may simply execute the following codes. 
   ```
-  install.packages('netie')
-  ```
-  Or
-  ```
   # install.packages("devtools") 
   devtools::install_github("tianshilu/netie", subdir = "netie") # don't forget to specify subdir!
   ```
