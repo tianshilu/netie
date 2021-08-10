@@ -15,8 +15,9 @@ selection pressure on the tumor clones over the time of tumor
 development. This may give us a peak into the future of how the
 mutations and clones will evolve for that patient. The model is based on
 pyclone estimation results. Essentially, each clone is modelled
-separately, but sharing some random variables. ![Netie
-Flowchart](flowchart.jpeg)
+separately, but sharing some random variables. 
+
+![NetieFlowchart](flowchart.jpeg)
 
 Please refer to our lab’s website for more information
 <a href="https://qbrc.swmed.edu/labs/wanglab/software.php" class="uri">https://qbrc.swmed.edu/labs/wanglab/software.php</a>.
