@@ -92,7 +92,7 @@ library(ggplot2)
 ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour = "seagreen3", size = 3) +labs(x = "Variant Allele Frequency",y="#Neoantigen per mutation")
 ```
 
-![](netie_readme_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](https://github.com/tianshilu/Netie/blob/main/README_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 ``` r
 example_input2= read.table('example_input2.txt', header=T,sep='\t',stringsAsFactors = F)
@@ -118,7 +118,7 @@ head(example_input2)
 ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour = "blue", size = 3) +labs(x = "Variant Allele Frequency",y="#Neoantigen per mutation")
 ```
 
-![](netie_readme_files/figure-markdown_github/unnamed-chunk-3-2.png)
+![](https://github.com/tianshilu/Netie/blob/main/README_files/figure-markdown_github/unnamed-chunk-3-2.png)
 
 -   sigma\_square, alpha, beta, sigma\_p\_sqr, sigma\_a\_sqr:
     hyperparameters for prior distributions. Please refer to the paper
