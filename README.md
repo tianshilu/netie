@@ -128,6 +128,8 @@ ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour
 
 -   max\_iter: the iterations of Markov chain Monte Carlo.
 
+-   cellular\_clock: choose to use cellular prevalence or variant allele frequency as the indicator of developmental time; variant allele frequency is the default.
+
 -   multi\_sample: use True if one patient has more than one sample.
 
 Two example input datasets can be found here:
