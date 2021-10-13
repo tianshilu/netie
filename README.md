@@ -45,7 +45,9 @@ Command:
 
 ``` r
 netie(input_data,sigma_square = 100000 ,
-      alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,multi_sample = T)
+      alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,
+      cellular_clock='variant_allele_frequency',
+      multi_sample = T)
 ```
 
 -   input\_data: a list with each data frame as the data for each
