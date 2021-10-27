@@ -1,55 +1,45 @@
-rm(list = ls())
-options(repos = c(CRAN = "http://cran.rstudio.com"))
-if (!'Rlab' %in% rownames(installed.packages())) {
-  install.packages('Rlab')
-}
-library('Rlab')
-
-netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr=NULL,max_iter,
-               cellular_clock='variant_allele_frequency',
-               multi_sample=FALSE){
+netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr=NULL,max_iter,multi_sample=FALSE,
+               cellular_prevalence_min=0.02,
+               keep_mutations_number=2,
+               keep_neoantigen_encoding_mutations_number=1){
+  #cellular prevalence filter
+  input_one_patient=input_one_patient[input_one_patient$cellular_prevalence>=cellular_prevalence_range[1] ,]
   if(all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)]==0)){
     return(NA)
   }
   input_one_patient=input_one_patient[!is.na(input_one_patient$cluster_id),]
   
-  #change cellular prevalence or vaf to cellular clock
-  if(cellular_clock=='variant_allele_frequency'){
-    colnames(input_one_patient)[colnames(input_one_patient)=='variant_allele_frequency']='cellular_clock'
-  }else{
-    colnames(input_one_patient)[colnames(input_one_patient)=='cellular_prevalence']='cellular_clock'
-  }
   #multi_sample
   if(multi_sample==T){
-  #same mutations have same neoantigens
-  mutations=unlist(sapply(input_one_patient$mutation_id,function(x) paste(strsplit(x,' ')[[1]][2],
-                                                                          strsplit(x,' ')[[1]][3])))
-  input_one_patient$neo_load=unlist(sapply(mutations,function(x) max(input_one_patient[mutations==x,'neo_load'])))
-  #find similar clones
-  phi='1'
-  clones=list()
-  clones[[id='1']]=mutations[paste(input_one_patient$sample_id,input_one_patient$cluster_id)==
-                             paste(input_one_patient$sample_id,input_one_patient$cluster_id)[1]]
-
-  for(each_clone in unique(paste(input_one_patient$sample_id,input_one_patient$cluster_id))[-1]){
-    mutations_one_clone=mutations[paste(input_one_patient$sample_id,input_one_patient$cluster_id)==each_clone]
-    phi_tmp=unlist(sapply(1:length(clones),function(x) {uniq_clone=clones[[x]]
-                          shared_mutations=intersect(uniq_clone,mutations_one_clone)
-                          #if shared mutations are 50% or more than considered as same clone
-                          if(length(shared_mutations)/length(uniq_clone)>0.5 & 
-                             length(shared_mutations)/length(mutations_one_clone)>0.5){
-                            return(names(clones)[x])
-                          }
-                          }),use.names = F)
-    if(!is.null(phi_tmp)){
-      phi=c(phi,phi_tmp)
-    }else{
-      phi_tmp=max(as.numeric(names(clones)))+1
-      phi=c(phi,phi_tmp)
-      clones[[id=as.character(phi_tmp)]]=mutations_one_clone
+    #same mutations have same neoantigens
+    mutations=unlist(sapply(input_one_patient$mutation_id,function(x) paste(strsplit(x,' ')[[1]][2],
+                                                                            strsplit(x,' ')[[1]][3])))
+    input_one_patient$neo_load=unlist(sapply(mutations,function(x) max(input_one_patient[mutations==x,'neo_load'])))
+    #find similar clones
+    phi='1'
+    clones=list()
+    clones[[id='1']]=mutations[paste(input_one_patient$sample_id,input_one_patient$cluster_id)==
+                                 paste(input_one_patient$sample_id,input_one_patient$cluster_id)[1]]
+    
+    for(each_clone in unique(paste(input_one_patient$sample_id,input_one_patient$cluster_id))[-1]){
+      mutations_one_clone=mutations[paste(input_one_patient$sample_id,input_one_patient$cluster_id)==each_clone]
+      phi_tmp=unlist(sapply(1:length(clones),function(x) {uniq_clone=clones[[x]]
+      shared_mutations=intersect(uniq_clone,mutations_one_clone)
+      #if shared mutations are 50% or more than considered as same clone
+      if(length(shared_mutations)/length(uniq_clone)>0.5 & 
+         length(shared_mutations)/length(mutations_one_clone)>0.5){
+        return(names(clones)[x])
+      }
+      }),use.names = F)
+      if(!is.null(phi_tmp)){
+        phi=c(phi,phi_tmp)
+      }else{
+        phi_tmp=max(as.numeric(names(clones)))+1
+        phi=c(phi,phi_tmp)
+        clones[[id=as.character(phi_tmp)]]=mutations_one_clone
+      }
     }
-  }
-  names(phi)=unique(paste(input_one_patient$sample_id,input_one_patient$cluster_id))
+    names(phi)=unique(paste(input_one_patient$sample_id,input_one_patient$cluster_id))
   }
   
   if(length(unique(input_one_patient$cluster_id))>1){
@@ -75,22 +65,22 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
     print("alpha should be larger than beta!")
     stop()
   }
- 
+  
   if(multi_sample==T){
     #keep mutations with vaf>0.5 in any samples
-    max_vaf=unlist(sapply(mutations,function(x) max(input_one_patient[mutations==x,'cellular_clock'])))
+    max_vaf=unlist(sapply(mutations,function(x) max(input_one_patient[mutations==x,'variant_allele_frequency'])))
     input_one_patient=input_one_patient[max_vaf>0.05,]
   }else{
     #only keep mutations with vaf>0.05 in single samples
-  input_one_patient=input_one_patient[input_one_patient$cellular_clock>0.05,]
+    input_one_patient=input_one_patient[input_one_patient$variant_allele_frequency>0.05,]
   }
-  #keep clusters with at least one mutation with neoantigens
+  #keep clusters with a customized number of mutations with neoantigens
   tmp=table(input_one_patient$cluster_id[input_one_patient$neo_load>0]) 
-  tmp=names(tmp[tmp>=1])
+  tmp=names(tmp[tmp>= keep_neoantigen_encoding_mutations_number])
   input_one_patient=input_one_patient[input_one_patient$cluster_id %in% tmp,]
   #only keep clones with >=2 mutations
   tmp=table(input_one_patient$cluster_id)
-  tmp=names(tmp[tmp>=2])
+  tmp=names(tmp[tmp>=keep_mutations_number])
   input_one_patient=input_one_patient[input_one_patient$cluster_id %in% tmp,]
   if (dim(input_one_patient)[1]==0) {return(NA)} 
   
@@ -140,10 +130,10 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
           #c:cluster_id
           input_each_clone=input_each_phi[input_each_phi$cluster_id==c,]
           
-          vck=input_each_clone$cellular_clock
+          vck=input_each_clone$variant_allele_frequency
           lambda=exp(ac[c]*vck+bc[c])
           nck=input_each_clone$neo_load
-        
+          
           #update zck
           r_tmp=pi*(nck==0)/(pi*(nck==0)+(1-pi)*dpois(nck,lambda,log=F))
           r_tmp_deno=pi*(nck==0)+(1-pi)*dpois(nck,lambda,log=F)
@@ -151,28 +141,28 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
           zck=1*(runif(length(nck),0,1)>r_tmp)
           names(zck)=input_each_clone$mutation_id
           zck_df$zck[zck_df$mutation_id %in% names(zck)]=zck
-        
+          
           #update bc
           bc_prim=rnorm(1,bc[c],sqrt(sigma_p_sqr))
           lambda_prim_b=exp(ac[c]*vck+bc_prim)
           lambda=exp(ac[c]*vck+bc[c])
-        
+          
           tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_b,log = T))
           tmp=sum((zck==1)*dpois(nck,lambda,log = T))
           llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_square)-tmp+bc[c]^2/(2*sigma_square))
-        
+          
           acceptance_function_b=min(1,llhr_b) 
-        
+          
           u=runif(1,0,1)
           if(u<=acceptance_function_b){
-           bc[c]=bc_prim
-           acp_rate_bc[c]=TRUE
-        }
+            bc[c]=bc_prim
+            acp_rate_bc[c]=TRUE
+          }
         }
         input_each_phi$bc=bc[input_each_phi$cluster_id]
         input_each_phi$ac=ac[c]
         
-        vck_phi=input_each_phi$cellular_clock
+        vck_phi=input_each_phi$variant_allele_frequency
         lambda_phi=exp(input_each_phi$ac*vck_phi+input_each_phi$bc)
         nck_phi=input_each_phi$neo_load
         
@@ -188,7 +178,7 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
         
         
         if(length(table(input_one_patient$cluster_id))==1){
-        #the patient only has one clone
+          #the patient only has one clone
           llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_square)-tmp+ac[c]^2/(2*sigma_square))
         }else{
           llhr_a=exp(tmp_prim-(ac_prim-a)^2/(2*sigma_a_sqr)-tmp+(ac[c]-a)^2/(2*sigma_a_sqr))
@@ -220,83 +210,83 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
       
       a_all=c(a_all,a)
       pi_all=c(pi_all,pi)
-  }else{
-    for(c in 1:length(unique(input_one_patient$cluster_id))){
-      input_each_clone=input_one_patient[input_one_patient$cluster_id==unique(input_one_patient$cluster_id)[c],]
-      
-      vck=input_each_clone$cellular_clock
-      
-      lambda=exp(ac[c]*vck+bc[c])
-      nck=input_each_clone$neo_load
-      
-      #update zck
-      r_tmp=pi*(nck==0)/(pi*(nck==0)+(1-pi)*dpois(nck,lambda,log=F))
-      r_tmp_deno=pi*(nck==0)+(1-pi)*dpois(nck,lambda,log=F)
-      r_tmp[r_tmp_deno==0]=0
-      zck=1*(runif(length(nck),0,1)>r_tmp)
-      names(zck)=input_each_clone$mutation_id
-      zck_df$zck[zck_df$mutation_id %in% names(zck)]=zck
-      
-      #update ac
-      ac_prim=rnorm(1,ac[c],sqrt(sigma_p_sqr))
-      lambda_prim_a=exp(ac_prim*vck+bc[c])
-      
-      #calculate likelihood ratio for new ac and old ac  
-      tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_a,log = T))
-      tmp=sum((zck==1)*dpois(nck,lambda,log = T))
-      
-      if(length(table(input_one_patient$cluster_id))==1){
-        #the patient only has one clone
-        llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_square)-tmp+ac[c]^2/(2*sigma_square))
-      }else{
-        llhr_a=exp(tmp_prim-(ac_prim-a)^2/(2*sigma_a_sqr)-tmp+(ac[c]-a)^2/(2*sigma_a_sqr))
+    }else{
+      for(c in 1:length(unique(input_one_patient$cluster_id))){
+        input_each_clone=input_one_patient[input_one_patient$cluster_id==unique(input_one_patient$cluster_id)[c],]
+        
+        vck=input_each_clone$variant_allele_frequency
+        
+        lambda=exp(ac[c]*vck+bc[c])
+        nck=input_each_clone$neo_load
+        
+        #update zck
+        r_tmp=pi*(nck==0)/(pi*(nck==0)+(1-pi)*dpois(nck,lambda,log=F))
+        r_tmp_deno=pi*(nck==0)+(1-pi)*dpois(nck,lambda,log=F)
+        r_tmp[r_tmp_deno==0]=0
+        zck=1*(runif(length(nck),0,1)>r_tmp)
+        names(zck)=input_each_clone$mutation_id
+        zck_df$zck[zck_df$mutation_id %in% names(zck)]=zck
+        
+        #update ac
+        ac_prim=rnorm(1,ac[c],sqrt(sigma_p_sqr))
+        lambda_prim_a=exp(ac_prim*vck+bc[c])
+        
+        #calculate likelihood ratio for new ac and old ac  
+        tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_a,log = T))
+        tmp=sum((zck==1)*dpois(nck,lambda,log = T))
+        
+        if(length(table(input_one_patient$cluster_id))==1){
+          #the patient only has one clone
+          llhr_a=exp(tmp_prim-ac_prim^2/(2*sigma_square)-tmp+ac[c]^2/(2*sigma_square))
+        }else{
+          llhr_a=exp(tmp_prim-(ac_prim-a)^2/(2*sigma_a_sqr)-tmp+(ac[c]-a)^2/(2*sigma_a_sqr))
+        }
+        
+        acceptance_function_a=min(1,llhr_a)
+        
+        u=runif(1,0,1)
+        if(u<=acceptance_function_a){
+          ac[c]=ac_prim
+          acp_rate_ac[c]=TRUE
+        }
+        
+        
+        #update bc
+        bc_prim=rnorm(1,bc[c],sqrt(sigma_p_sqr))
+        lambda_prim_b=exp(ac[c]*vck+bc_prim)
+        lambda=exp(ac[c]*vck+bc[c])
+        
+        tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_b,log = T))
+        tmp=sum((zck==1)*dpois(nck,lambda,log = T))
+        llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_square)-tmp+bc[c]^2/(2*sigma_square))
+        
+        acceptance_function_b=min(1,llhr_b) 
+        
+        u=runif(1,0,1)
+        if(u<=acceptance_function_b){
+          bc[c]=bc_prim
+          acp_rate_bc[c]=TRUE
+        }
       }
+      #update pi
+      pi=rbeta(1,alpha+sum((zck_df$zck==0)*(input_one_patient$neo_load==0)),beta+sum(zck_df$zck==1))
       
-      acceptance_function_a=min(1,llhr_a)
+      #update a
+      A=1/sigma_square+length(unique(input_one_patient$cluster_id))/sigma_a_sqr
+      B=sum(ac)/sigma_a_sqr
       
-      u=runif(1,0,1)
-      if(u<=acceptance_function_a){
-        ac[c]=ac_prim
-        acp_rate_ac[c]=TRUE
-      }
+      a=rnorm(1,B/A,sqrt(1/A))
       
+      #save results
+      ac_list[[iter]]=ac
+      bc_list[[iter]]=bc
+      zck_list[[iter]]=zck_df$zck
+      acp_rate_ac_list[[iter]]=acp_rate_ac
+      acp_rate_bc_list[[iter]]=acp_rate_bc
       
-      #update bc
-      bc_prim=rnorm(1,bc[c],sqrt(sigma_p_sqr))
-      lambda_prim_b=exp(ac[c]*vck+bc_prim)
-      lambda=exp(ac[c]*vck+bc[c])
-      
-      tmp_prim=sum((zck==1)*dpois(nck,lambda_prim_b,log = T))
-      tmp=sum((zck==1)*dpois(nck,lambda,log = T))
-      llhr_b=exp(tmp_prim-bc_prim^2/(2*sigma_square)-tmp+bc[c]^2/(2*sigma_square))
-      
-      acceptance_function_b=min(1,llhr_b) 
-      
-      u=runif(1,0,1)
-      if(u<=acceptance_function_b){
-        bc[c]=bc_prim
-        acp_rate_bc[c]=TRUE
-      }
+      a_all=c(a_all,a)
+      pi_all=c(pi_all,pi)
     }
-    #update pi
-    pi=rbeta(1,alpha+sum((zck_df$zck==0)*(input_one_patient$neo_load==0)),beta+sum(zck_df$zck==1))
-    
-    #update a
-    A=1/sigma_square+length(unique(input_one_patient$cluster_id))/sigma_a_sqr
-    B=sum(ac)/sigma_a_sqr
-    
-    a=rnorm(1,B/A,sqrt(1/A))
-    
-    #save results
-    ac_list[[iter]]=ac
-    bc_list[[iter]]=bc
-    zck_list[[iter]]=zck_df$zck
-    acp_rate_ac_list[[iter]]=acp_rate_ac
-    acp_rate_bc_list[[iter]]=acp_rate_bc
-    
-    a_all=c(a_all,a)
-    pi_all=c(pi_all,pi)
-      }
   }
   #take average
   keep=round(max_iter/2):max_iter
@@ -310,12 +300,12 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
   
   a_final=mean(a_all[keep])
   pi_final=mean(pi_all[keep])
-
+  
   if(multi_sample==TRUE){
     final_parameters=list(ac=cbind(phi_cluster,ac_final),a=a_final)
-    }else{
-      final_parameters=list(ac=ac_final,a=a_final)
-    }
+  }else{
+    final_parameters=list(ac=ac_final,a=a_final)
+  }
   result=list('final_parameters'=final_parameters)
   return(result)
 }
