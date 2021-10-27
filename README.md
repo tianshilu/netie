@@ -47,6 +47,9 @@ Command:
 netie(input_data,sigma_square = 100000 ,
       alpha = 10,beta = 2,sigma_p_sqr = 0.1,sigma_a_sqr = NULL,max_iter =100000,
       cellular_clock='variant_allele_frequency',
+      cellular_prevalence_min=0.02,
+      keep_mutations_number=2,
+      keep_neoantigen_encoding_mutations_number=1,
       multi_sample = T)
 ```
 
@@ -58,7 +61,7 @@ netie(input_data,sigma_square = 100000 ,
     “mutation\_id”,“sample\_id”,“cluster\_id”,“cellular\_prevalence”,“variant\_allele\_frequency”,
     and “neoantigen\_load”. Please use PyClone or other softwares
     (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
-    to get information of cluster id and cellular prevalence. Please use
+    to get information of cluster id and cellular prevalence (we recommend to keep mutations with sequencing depth more than 50 for clustering and netie inference). Please use
     QBRC mutation calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Somatic-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Somatic-Pipeline</a>)
     to call mutations for whole exome sequenicng; QBRC neoantigen
@@ -129,6 +132,12 @@ ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour
 -   max\_iter: the iterations of Markov chain Monte Carlo.
 
 -   cellular\_clock: choose to use cellular prevalence or variant allele frequency as the indicator of developmental time; variant allele frequency is the default.
+
+-   cellular\_prevalence\_min: the minimal cutoff for cellular prevalence of clones; the default is 0.02.
+
+-   keep\_mutations\_number: number of mutations you want to keep for inference; the minimal number is 2 and the default is 2.
+
+-   keep\_neoantigen\_encoding\_mutations\_number: number of neoantigen-encoding mutations you want to keep for inference; the minimal number is 1 and the default is 1.
 
 -   multi\_sample: use True if one patient has more than one sample.
 
