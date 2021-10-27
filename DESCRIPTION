@@ -1,4 +1,4 @@
-Package: Netie
+Package: netie
 Type: Package
 Title: Antigen T Cell Interaction Estimation
 Version: 1.0
