@@ -36,7 +36,7 @@ devtools::install_github("tianshilu/netie", subdir = "netie") # don't forget to 
 Dependencies
 ------------
 
-PyClone; R(version&gt;3.4)
+PyClone (or PhyloWGS or SciClone); R(version&gt;3.6)
 
 Guided Tutorial
 ---------------
