@@ -1,7 +1,7 @@
 Package: netie
 Type: Package
 Title: Antigen T Cell Interaction Estimation
-Version: 1.0
+Version: 1.0.1
 Date: 2021-10-26
 Author: Tianshi Lu
 Maintainer: Tianshi Lu <tianshi.lu@utsouthwestern.edu>
