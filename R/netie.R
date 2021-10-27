@@ -4,7 +4,7 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
                keep_mutations_number=2,
                keep_neoantigen_encoding_mutations_number=1){
   #cellular prevalence filter
-  input_one_patient=input_one_patient[input_one_patient$cellular_prevalence>=cellular_prevalence_range[1] ,]
+  input_one_patient=input_one_patient[input_one_patient$cellular_prevalence>=cellular_prevalence_min ,]
   if(all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)]==0)){
     return(NA)
   }
