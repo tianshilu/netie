@@ -59,9 +59,11 @@ netie(input_data,sigma_square = 100000 ,
     cellular prevalence, variant allele prevalence, variant allele
     frequency, and neoantigen load with column names as
     “mutation\_id”,“sample\_id”,“cluster\_id”,“cellular\_prevalence”,“variant\_allele\_frequency”,
-    and “neoantigen\_load”. Please use PyClone or other softwares
+    and “neoantigen\_load”. 
+    Please use PyClone or other softwares
     (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
-    to get information of cluster id and cellular prevalence (we recommend to keep mutations with sequencing depth more than 50 for clustering and netie inference). Please use
+    to get information of cluster id and cellular prevalence (we recommend to keep mutations with sequencing depth more than 50 for clustering and netie inference). 
+    Please use
     QBRC mutation calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Somatic-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Somatic-Pipeline</a>)
     to call mutations for whole exome sequenicng; QBRC neoantigen
