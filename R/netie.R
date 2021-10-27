@@ -1,8 +1,21 @@
-netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr=NULL,max_iter,multi_sample=FALSE){
+netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr=NULL,max_iter,multi_sample=FALSE,
+               cellular_clock='variant_allele_frequency',
+               cellular_prevalence_min=0.02,
+               keep_mutations_number=2,
+               keep_neoantigen_encoding_mutations_number=1){
+  #cellular prevalence filter
+  input_one_patient=input_one_patient[input_one_patient$cellular_prevalence>=cellular_prevalence_range[1] ,]
   if(all(input_one_patient$neo_load[!is.na(input_one_patient$cluster_id)]==0)){
     return(NA)
   }
   input_one_patient=input_one_patient[!is.na(input_one_patient$cluster_id),]
+  
+  #change cellular prevalence or vaf to cellular clock
+  if(cellular_clock=='variant_allele_frequency'){
+    colnames(input_one_patient)[colnames(input_one_patient)=='variant_allele_frequency']='cellular_clock'
+  }else{
+    colnames(input_one_patient)[colnames(input_one_patient)=='cellular_prevalence']='cellular_clock'
+  }
   
   #multi_sample
   if(multi_sample==T){
@@ -69,13 +82,13 @@ netie=function(input_one_patient,sigma_square,alpha,beta,sigma_p_sqr,sigma_a_sqr
     #only keep mutations with vaf>0.05 in single samples
     input_one_patient=input_one_patient[input_one_patient$variant_allele_frequency>0.05,]
   }
-  #keep clusters with at least one mutation with neoantigens
+  #keep clusters with a customized number of mutations with neoantigens
   tmp=table(input_one_patient$cluster_id[input_one_patient$neo_load>0]) 
-  tmp=names(tmp[tmp>=1])
+  tmp=names(tmp[tmp>= keep_neoantigen_encoding_mutations_number])
   input_one_patient=input_one_patient[input_one_patient$cluster_id %in% tmp,]
   #only keep clones with >=2 mutations
   tmp=table(input_one_patient$cluster_id)
-  tmp=names(tmp[tmp>=2])
+  tmp=names(tmp[tmp>=keep_mutations_number])
   input_one_patient=input_one_patient[input_one_patient$cluster_id %in% tmp,]
   if (dim(input_one_patient)[1]==0) {return(NA)} 
   
