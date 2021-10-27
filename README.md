@@ -54,15 +54,19 @@ netie(input_data,sigma_square = 100000 ,
 ```
 
 -   input\_data: a list with each data frame as the data for each
-    patient. Each data frame consists 7 columns and each row is for one
+    patient. 
+    
+    Each data frame consists 7 columns and each row is for one
     mutation. The 7 columns are mutation ID, sample ID, cluster ID,
     cellular prevalence, variant allele prevalence, variant allele
     frequency, and neoantigen load with column names as
     “mutation\_id”,“sample\_id”,“cluster\_id”,“cellular\_prevalence”,“variant\_allele\_frequency”,
     and “neoantigen\_load”. 
+    
     Please use PyClone or other softwares
     (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
     to get information of cluster id and cellular prevalence (we recommend to keep mutations with sequencing depth more than 50 for clustering and netie inference). 
+    
     Please use
     QBRC mutation calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Somatic-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Somatic-Pipeline</a>)
