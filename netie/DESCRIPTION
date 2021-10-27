@@ -2,7 +2,7 @@ Package: netie
 Type: Package
 Title: Antigen T Cell Interaction Estimation
 Version: 1.0
-Date: 2021-05-07
+Date: 2021-10-26
 Author: Tianshi Lu
 Maintainer: Tianshi Lu <tianshi.lu@utsouthwestern.edu>
 Description:The Bayesian Hierarchical Model named antigen-T cell interaction estimation is to estimate the history of the immune pressure on the evolution of the tumor clones. 
