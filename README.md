@@ -141,9 +141,9 @@ ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour
 
 -   cellular\_prevalence\_min: the minimal cutoff for cellular prevalence of clones; the default is 0.02.
 
--   keep\_mutations\_number: number of mutations you want to keep for inference; the minimal number is 2 and the default is 2.
+-   keep\_mutations\_number: the minimum number of somatic mutations that a tumor clone must have, for it to be considered in the model.
 
--   keep\_neoantigen\_encoding\_mutations\_number: number of neoantigen-encoding mutations you want to keep for inference; the minimal number is 1 and the default is 1.
+-   keep\_neoantigen\_encoding\_mutations\_number: the minimum number of neoantigen-encoding somatic mutations that a tumor clone must have to be considered in the model.
 
 -   multi\_sample: use True if one patient has more than one sample.
 
