@@ -158,8 +158,6 @@ pressure for each clone (ac) and for the whole tumor (a).
 Two example output results can be found here:
 <a href="https://github.com/tianshilu/Netie/tree/main/example" class="uri">https://github.com/tianshilu/Netie/tree/main/example</a>
 
-examples of output
-
 ``` r
 load('example_output1.RData')
 print(example_output$a)
