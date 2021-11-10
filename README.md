@@ -1,28 +1,27 @@
 Netie
 =====
 
-An R package to infer the anti-tumor selection pressure for tumors.
+Inferring the evolution of neoantigen-T cell interactions in tumors
 
 Introduction
 ------------
 
 The Bayesian Hierarchical Model named Neoantgien-T cell interaction
-estimation (Netie) is to investigate the neoantigens observed in the
-patient tumors to esti- mate the history of the immune pressure on the
-evolution of the tumor clones. The estimation results will answer
+estimation (Netie) is developed to investigate the neoantigens observed in the
+patient tumors to estimate the history of the impact of the host immune pressure on the
+evolution of the tumor clones. The estimation results will reveal
 whether the host immune system has been conferring strong or weaker
 selection pressure on the tumor clones over the time of tumor
 development. This may give us a peak into the future of how the
 mutations and clones will evolve for that patient. The model is based on
-pyclone estimation results. Essentially, each clone is modelled
-separately, but sharing some random variables. 
+pyclone/sciclone/phylowgs estimation results.
 
 ![NetieFlowchart](https://github.com/tianshilu/Netie/blob/main/flowchart.jpg)
 
 Please refer to our lab’s website for more information
 <a href="https://qbrc.swmed.edu/labs/wanglab/software.php" class="uri">https://qbrc.swmed.edu/labs/wanglab/software.php</a>.
 
-Installation of the package:
+Installation of the netie package:
 ----------------------------
 
 To install our package, you may simply execute the following codes.
@@ -53,27 +52,27 @@ netie(input_data,sigma_square = 100000 ,
       multi_sample = T)
 ```
 
--   input\_data: a list with each data frame as the data for each
+-   input\_data: a list with each element being a data frame corresponding to each
     patient. 
     
-    Each data frame consists 7 columns and each row is for one
+    Each data frame consists of 7 columns and each row is for one
     mutation. The 7 columns are mutation ID, sample ID, cluster ID,
     cellular prevalence, variant allele prevalence, variant allele
     frequency, and neoantigen load with column names as
     “mutation\_id”,“sample\_id”,“cluster\_id”,“cellular\_prevalence”,“variant\_allele\_frequency”,
     and “neoantigen\_load”. 
     
-    Please use PyClone or other softwares
+    Please use PyClone or other similar software
     (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
-    to get information of cluster id and cellular prevalence (we recommend to keep mutations with sequencing depth more than 50 for clustering and netie inference). 
+    to get information of cluster id and cellular prevalence (we recommend keeping mutations with sequencing depth more than 50 for clustering and netie inference). 
     
     Please use
-    QBRC mutation calling pipeline
+    the QBRC mutation calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Somatic-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Somatic-Pipeline</a>)
-    to call mutations for whole exome sequenicng; QBRC neoantigen
+    to call mutations from the whole exome sequenicng data; and the QBRC neoantigen
     calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Neoantigen-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Neoantigen-Pipeline</a>)
-    to call neoantigens for whole exome sequencing and RNA sequencing.
+    to call neoantigens from the whole exome sequencing and RNA sequencing data.
 
 examples of input\_data:
 
@@ -135,17 +134,17 @@ ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour
     hyperparameters for prior distributions. Please refer to the paper
     for more details.
 
--   max\_iter: the iterations of Markov chain Monte Carlo.
+-   max\_iter: the maximum iterations of Markov chain Monte Carlo allowed.
 
--   cellular\_clock: choose to use cellular prevalence or variant allele frequency as the indicator of developmental time; variant allele frequency is the default.
+-   cellular\_clock: choose to use cellular prevalence (CP) or variant allele frequency (VAF) as the indicator of developmental time
 
--   cellular\_prevalence\_min: the minimal cutoff for cellular prevalence of clones; the default is 0.02.
+-   cellular\_prevalence\_min: the minimal cutoff on the range of CP (or VAF) of the mutations found in a clone, for this clone to be considered in the model; the default is 0.02.
 
 -   keep\_mutations\_number: the minimum number of somatic mutations that a tumor clone must have, for it to be considered in the model.
 
--   keep\_neoantigen\_encoding\_mutations\_number: the minimum number of neoantigen-encoding somatic mutations that a tumor clone must have to be considered in the model.
+-   keep\_neoantigen\_encoding\_mutations\_number: the minimum number of neoantigen-encoding somatic mutations that a tumor clone must have, for it to be considered in the model.
 
--   multi\_sample: use True if one patient has more than one sample.
+-   multi\_sample: TRUE if one patient has more than one sample.
 
 Two example input datasets can be found here:
 <a href="https://github.com/tianshilu/Netie/tree/main/example" class="uri">https://github.com/tianshilu/Netie/tree/main/example</a>
@@ -153,13 +152,11 @@ Two example input datasets can be found here:
 Output
 ------
 
-The output is a list with the information of the anti-tumor selection
-pressure for each clone ac and for the whole tumor a.
+The output is a list with the data of the estimated anti-tumor selection
+pressure for each clone (ac) and for the whole tumor (a).
 
 Two example output results can be found here:
 <a href="https://github.com/tianshilu/Netie/tree/main/example" class="uri">https://github.com/tianshilu/Netie/tree/main/example</a>
-
-examples of output
 
 ``` r
 load('example_output1.RData')
