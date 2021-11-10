@@ -144,7 +144,7 @@ ggplot(example_input1,aes(variant_allele_frequency,neo_load))+ geom_point(colour
 
 -   keep\_neoantigen\_encoding\_mutations\_number: the minimum number of neoantigen-encoding somatic mutations that a tumor clone must have, for it to be considered in the model.
 
--   multi\_sample: TRUE if one patient has more than one sample.
+-   multi\_sample: TRUE if the samples in the input data list are to be treated as the multi-sampling data from one single patient.
 
 Two example input datasets can be found here:
 <a href="https://github.com/tianshilu/Netie/tree/main/example" class="uri">https://github.com/tianshilu/Netie/tree/main/example</a>
