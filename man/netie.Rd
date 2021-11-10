@@ -7,7 +7,7 @@ Neoantigen-T cell interaction estimation
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-The Bayesian Hierarchical Model named Neoantigen-T cell interaction estimation (Netie) is to estimate the history of the immune pressure on the evolution of the tumor clones.
+The Bayesian Hierarchical Model named netie is developed to estimate the history of the impact of host immune pressure on the evolution of the tumor clones.
 }
 \usage{
 netie(input_one_patient,sigma_square,alpha,beta,
@@ -17,7 +17,7 @@ sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample)
 \arguments{
   \item{input_one_patient}{
 %%     ~~Describe \code{input_one_patient} here~~
-a list with each data frame as the data for each patient. Each data frame consists 7 columns and each row is for one mutation. Please refer to https://github.com/tianshilu/Netie for more details.
+a list with each element being a data frame corresponding to each patient. Each data frame consists of 7 columns and each row is for one mutation. Please refer to https://github.com/tianshilu/Netie for more details.
 }
   \item{sigma_square}{
 %%     ~~Describe \code{sigma_square} here~~
@@ -41,11 +41,11 @@ hyperparameters for prior distributions. Please refer to https://github.com/tian
 }
   \item{max_iter}{
 %%     ~~Describe \code{max_iter} here~~
-the iterations of Markov chain Monte Carlo.
+the maximum number of iterations of the Markov chain Monte Carlo.
 }
   \item{multi_sample}{
 %%     ~~Describe \code{multi_sample} here~~
-use True if one patient has more than one sample.
+TRUE if the samples in the input data list are to be treated as the multi-sampling data from one single patient
 }
 }
 \value{
@@ -54,7 +54,7 @@ use True if one patient has more than one sample.
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
-The output is a list with the information of the anti-tumor selection pressure for each clone ac and for the whole tumor a.
+The output is a list with the data of the estimated anti-tumor selection pressure for each clone (ac) and for the whole tumor (a).
 }
 \references{
 %% ~put references to the literature/web site here ~
