@@ -153,14 +153,14 @@ Output
 ------
 
 The output is a list with the data of the estimated anti-tumor selection
-pressure for each clone (ac) and for the whole tumor (a).
+pressure for each clone (ac) and for the whole tumor (a). ac indicates the inferred anti-tumor selection pressure for clone c. a indicates the inferred anti-tumor selection pressure for the whole tumor.
 
 Two example output results can be found here:
 <a href="https://github.com/tianshilu/Netie/tree/main/example" class="uri">https://github.com/tianshilu/Netie/tree/main/example</a>
 
 ``` r
 load('example_output1.RData')
-print(example_output$a)
+print(example_output$a) 
 ```
 
     ## [1] 1.577462
