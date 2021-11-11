@@ -24,8 +24,8 @@ sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample)
     mutation. The 7 columns are mutation ID, sample ID, cluster ID,
     cellular prevalence, variant allele prevalence, variant allele
     frequency, and neoantigen load with column names as
-    “mutation\_id”,“sample\_id”,“cluster\_id”,“cellular\_prevalence”,“variant\_allele\_frequency”,
-    and “neoantigen\_load”. 
+    “mutation_id”,“sample_id”,“cluster_id”,“cellular_prevalence”,“variant_allele_frequency”,
+    and “neoantigen_load”. 
     
     Please use PyClone or other similar software
     (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
