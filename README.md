@@ -154,7 +154,7 @@ Output
 ------
 
 The output is a list with the data of the estimated anti-tumor selection
-pressure for each clone (ac) and for the whole tumor (a). The output list is consisting of two lists (all_parameters and final_parameters). all_parameters is the inferred variables ac and a for each MCMC iterations and final_parameters is the posterior means of the variables. ac indicates the inferred anti-tumor selection pressure for clone c. a indicates the inferred anti-tumor selection pressure for the whole tumor.
+pressure for each clone (ac) and for the whole tumor (a). The output list is consisting of two lists (all_parameters and final_parameters). all_parameters is the inferred variables ac and a for each MCMC iterations and final_parameters is the posterior means of the variables of the second half of MCMC iterations. ac indicates the inferred anti-tumor selection pressure for clone c. a indicates the inferred anti-tumor selection pressure for the whole tumor.
 
 Two example output results can be found here:
 <a href="https://github.com/tianshilu/Netie/tree/main/example" class="uri">https://github.com/tianshilu/Netie/tree/main/example</a>
