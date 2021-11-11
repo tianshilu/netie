@@ -18,7 +18,7 @@ pyclone/sciclone/phylowgs estimation results.
 
 ![NetieFlowchart](https://github.com/tianshilu/Netie/blob/main/flowchart.jpeg)
 
-Please refer to our lab’s website for more information
+Please refer to our lab’s website for more bioinformatics software 
 <a href="https://qbrc.swmed.edu/labs/wanglab/software.php" class="uri">https://qbrc.swmed.edu/labs/wanglab/software.php</a>.
 
 Installation of the netie package:
