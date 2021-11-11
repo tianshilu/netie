@@ -16,7 +16,7 @@ development. This may give us a peak into the future of how the
 mutations and clones will evolve for that patient. The model is based on
 pyclone/sciclone/phylowgs estimation results.
 
-![NetieFlowchart](https://github.com/tianshilu/Netie/blob/main/flowchart.jpg)
+![NetieFlowchart](https://github.com/tianshilu/Netie/blob/main/flowchart.jpeg)
 
 Please refer to our lab’s website for more information
 <a href="https://qbrc.swmed.edu/labs/wanglab/software.php" class="uri">https://qbrc.swmed.edu/labs/wanglab/software.php</a>.
