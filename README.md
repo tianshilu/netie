@@ -73,6 +73,7 @@ netie(input_data,sigma_square = 100000 ,
     calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Neoantigen-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Neoantigen-Pipeline</a>)
     to call neoantigens from the whole exome sequencing and RNA sequencing data.
+    Output from other somatic mutation/neoantigen calling pipelines can also be organized into the input of netie
 
 examples of input\_data:
 
