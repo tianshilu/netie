@@ -17,8 +17,28 @@ sigma_p_sqr,sigma_a_sqr,max_iter,multi_sample)
 \arguments{
   \item{input_one_patient}{
 %%     ~~Describe \code{input_one_patient} here~~
-a list with each data frame as the data for each patient. Each data frame consists 7 columns and each row is for one mutation. Please refer to https://github.com/tianshilu/Netie for more details.
-}
+    a list with each element being a data frame corresponding to each
+    patient. 
+    
+    Each data frame consists of 7 columns and each row is for one
+    mutation. The 7 columns are mutation ID, sample ID, cluster ID,
+    cellular prevalence, variant allele prevalence, variant allele
+    frequency, and neoantigen load with column names as
+    “mutation\_id”,“sample\_id”,“cluster\_id”,“cellular\_prevalence”,“variant\_allele\_frequency”,
+    and “neoantigen\_load”. 
+    
+    Please use PyClone or other similar software
+    (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
+    to get information of cluster id and cellular prevalence (we recommend keeping mutations with sequencing depth more than 50 for clustering and     netie inference). Please arrange the output of the mutation clustering software as a table in plain text format with 6 columns: mutation_id,       sample_id, cluster_id, cellular_prevalence, variant_allele_frequency, neo_load (please see an example of the input of netie below).
+     
+    Please use
+    the QBRC mutation calling pipeline
+    (<a href="https://github.com/tianshilu/QBRC-Somatic-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Somatic-Pipeline</a>)
+    to call mutations from the whole exome sequenicng data; and the QBRC neoantigen
+    calling pipeline
+    (<a href="https://github.com/tianshilu/QBRC-Neoantigen-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Neoantigen-Pipeline</a>)
+    to call neoantigens from the whole exome sequencing and RNA sequencing data.
+    Output from other somatic mutation/neoantigen calling pipelines can also be organized into the input of netie}
   \item{sigma_square}{
 %%     ~~Describe \code{sigma_square} here~~
 hyperparameters for prior distributions. Please refer to https://github.com/tianshilu/Netie for more details.
@@ -54,7 +74,10 @@ use True if one patient has more than one sample.
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
-The output is a list with the information of the anti-tumor selection pressure for each clone ac and for the whole tumor a.
+The output is a list with the data of the estimated anti-tumor selection
+pressure for each clone (ac) and for the whole tumor (a). The output list is consisting of two lists (all_parameters and final_parameters). \
+ all_parameters is the inferred variables ac and a for each MCMC iterations and final_parameters is the posterior means of the variables of the second half of MCMC iterations. \
+ ac indicates the inferred anti-tumor selection pressure for clone c. a indicates the inferred anti-tumor selection pressure for the whole tumor.
 }
 \references{
 %% ~put references to the literature/web site here ~
