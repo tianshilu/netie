@@ -64,8 +64,8 @@ netie(input_data,sigma_square = 100000 ,
     
     Please use PyClone or other similar software
     (<a href="https://github.com/tianshilu/Phylogenetic-Tree" class="uri">https://github.com/tianshilu/Phylogenetic-Tree</a>)
-    to get information of cluster id and cellular prevalence (we recommend keeping mutations with sequencing depth more than 50 for clustering and netie inference). 
-    
+    to get information of cluster id and cellular prevalence (we recommend keeping mutations with sequencing depth more than 50 for clustering and     netie inference). Please arrange the output of the mutation clustering software as a table in plain text format with 6 columns: mutation_id,       sample_id, cluster_id, cellular_prevalence, variant_allele_frequency, neo_load (please see an example of the input of netie below).
+     
     Please use
     the QBRC mutation calling pipeline
     (<a href="https://github.com/tianshilu/QBRC-Somatic-Pipeline" class="uri">https://github.com/tianshilu/QBRC-Somatic-Pipeline</a>)
