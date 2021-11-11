@@ -9,3 +9,5 @@
 9. response_pyclone.tar.gz: the pyclone output for treatment cohorts.
 10. TCGA_netie_output/: the netie output for TCGA cohorts. 
 11. response_netie_output/: the netie output for treatment cohorts.
+
+The predicted neoantigens for patients are not provided due to the individual identifiable HLA information cannot be shared publicly according to HIPPA privacy rule.
